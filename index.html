@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบบริหารงานป้องกันปราบปราม สภ.เมืองสุพรรณบุรี</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --primary-dark: #26010B;
+            --primary: #400212;
+            --accent-gold: #D9A036;
+            --accent-light: #F2A341;
+            --light-bg: #F2F2F2;
+            --success: #2ecc71;
+            --info: #3498db;
+            --warning: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', 'Sukhumvit Set', 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--primary-dark);
+            min-height: 100vh;
+            padding-bottom: 100px;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            padding: 28px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            border-bottom: 4px solid var(--accent-gold);
+            box-shadow: 0 4px 20px rgba(38, 1, 11, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .header h2 {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.9);
+            margin-top: 5px;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px 12px 0 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(64, 2, 18, 0.2);
+        }
+
+        .section-content {
+            background: white;
+            border-radius: 0 0 12px 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(38, 1, 11, 0.08);
+            border: 1px solid rgba(64, 2, 18, 0.1);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-top: 12px;
+        }
+
+        .action-button {
+            background: white;
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 0;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(64, 2, 18, 0.1);
+            height: 100%;
+            aspect-ratio: 1/1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(64, 2, 18, 0.15);
+            border-color: var(--accent-light);
+        }
+
+        .action-button:active {
+            transform: translateY(-1px);
+        }
+
+        .button-icon-container {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 6px 12px rgba(64, 2, 18, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover .button-icon-container {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-gold) 100%);
+        }
+
+        /* Special button colors */
+        .btn-arrest { --btn-color: #e74c3c; }
+        .btn-vehicle { --btn-color: #3498db; }
+        .btn-shift { --btn-color: #9b59b6; }
+        .btn-report { --btn-color: #2ecc71; }
+        .btn-close { --btn-color: #e67e22; }
+        .btn-checkpoint { --btn-color: #1abc9c; }
+        .btn-psych { --btn-color: #f1c40f; }
+        .btn-data { --btn-color: #34495e; }
+
+        .btn-arrest .button-icon-container {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        .btn-vehicle .button-icon-container {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        .btn-shift .button-icon-container {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+        .btn-report .button-icon-container {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        }
+        .btn-close .button-icon-container {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+        }
+        .btn-checkpoint .button-icon-container {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+        }
+        .btn-psych .button-icon-container {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+        }
+        .btn-data .button-icon-container {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        }
+
+        .button-text {
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            padding: 0 12px;
+            color: var(--primary-dark);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(64, 2, 18, 0.1);
+            padding: 14px 0;
+            box-shadow: 0 -8px 24px rgba(38, 1, 11, 0.08);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .nav-item.active .nav-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+            font-size: 18px;
+            background: var(--light-bg);
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Modern Badge */
+        .badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: var(--accent-gold);
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(217, 160, 54, 0.3);
+            border: 3px solid white;
+            transform: rotate(15deg);
+        }
+
+        .badge i {
+            color: var(--primary-dark);
+            font-size: 26px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .button-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-item {
+                min-width: 70px;
+                padding: 8px 12px;
+            }
+            
+            .button-icon-container {
+                width: 56px;
+                height: 56px;
+                font-size: 26px;
+            }
+
+            .badge {
+                width: 48px;
+                height: 48px;
+                right: 18px;
+            }
+            
+            .badge i {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 12px;
+            }
+
+            .button-icon-container {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+                margin-bottom: 12px;
+                border-radius: 14px;
+            }
+
+            .button-text {
+                font-size: 13px;
+            }
+
+            .nav-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+            }
+
+            .badge {
+                width: 42px;
+                height: 42px;
+                right: 12px;
+                top: -10px;
+            }
+            
+            .badge i {
+                font-size: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="badge">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h1><i class="fas fa-gavel" style="margin-right: 12px;"></i>ระบบบริหารงานป้องกันปราบปราม</h1>
+        <h2>สภ.เมืองสุพรรณบุรี</h2>
+    </div>
+
+    <div class="main-content">
+        <!-- บันทึกรายงาน Section -->
+        <div class="content-section active" id="record-section">
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-edit"></i> กลุ่มการบันทึกผล
+                </div>
+                <div class="section-content">
+                    <div class="button-grid">
+                        <a href="https://script.google.com/macros/s/AKfycbzewjn452-ho37sS6Hz855xmOuOTn3165bLVAQHmDGdXoKvNIdV_CKKuSlvQrkNBvr1DA/exec" class="action-button btn-arrest" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-handcuffs"></i>
+                            </div>
+                            <span class="button-text">บันทึกจับกุม</span>
+                        </a>
+                        <a href="https://script.google.com/macros/s/AKfycbyEwE6KiAnu7jQWaYiasXbYPHVbV1emaRDy8Qol69sadJMPud230NNfYOhnFhnfI72V/exec" class="action-button btn-vehicle" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <span class="button-text">บันทึกยึดรถ</span>
+                        </a>
+                        <a href="https://script.google.com/macros/s/AKfycbxQpK6R7Po4DmwPsL90YLNQTLcHAa3FZ23KgME9vpI2b2d8Q4_6Ey19rlORNeVMAfPw/exec" class="action-button btn-shift" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <span class="button-text">บันทึกเข้าเวร</span>
+                        </a>
+                        <a href="https://script.google.com/macros/s/AKfycbyKXuv7VWvcEyzH3hC1iuW0Vx2qCa9q8NXHWLIkzyJVa8IrdGrhY3N4AqNsoY1dwOeJZQ/exec" class="action-button btn-report" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <span class="button-text">ว.4 ว.10</span>
+                        </a>
+                        <a href="https://script.google.com/macros/s/AKfycbx2lgl7Pgv-sFAEItFHc1Y8x3AXmUAPptVuvb_U_UG1lLRq1cTYByMUS66UBrerJ8wCng/exec" class="action-button btn-close" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <span class="button-text">ปิดเหตุ</span>
+                        </a>
+                        <a href="https://forms.gle/d9PccQbJ8PZaGShZA" class="action-button btn-checkpoint" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <span class="button-text">ตั้งจุดตรวจ</span>
+                        </a>
+                        <a href="https://forms.gle/ptUSYg8UGKbN5VE19" class="action-button btn-checkpoint" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <span class="button-text">รายงานผลจุดตรวจ</span>
+                        </a>
+                        <a href="https://forms.gle/NzbPcx3NNUrwTi839" class="action-button btn-report" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <span class="button-text">รายงานมาตรา 22</span>
+                        </a>
+                        <a href="https://forms.gle/3wwwZSYMoGDZGJ8M6" class="action-button btn-psych" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <span class="button-text">จิตเวช</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- รายงาน Section -->
+        <div class="content-section" id="report-section">
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-chart-bar"></i> กลุ่มรายงาน
+                </div>
+                <div class="section-content">
+                    <div class="button-grid">
+                        <a href="https://lookerstudio.google.com/s/sDNSU4Yjpdk" class="action-button btn-report" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-map"></i>
+                            </div>
+                            <span class="button-text">รายงานแผนที่เกิดเหตุ</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/qCGxejttanM" class="action-button btn-report" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="button-text">รายงาน ว.4 ว.10</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/jlBCOLAGmc0" class="action-button btn-arrest" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-handcuffs"></i>
+                            </div>
+                            <span class="button-text">รายงานผลจับกุม</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/o8dAIwMG0IQ" class="action-button btn-shift" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-user-clock"></i>
+                            </div>
+                            <span class="button-text">รายงานการเข้าเวร</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/mjBqbfPLs90" class="action-button btn-close" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <span class="button-text">ปล่อยแถว</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/oFuDjx95KFA" class="action-button btn-vehicle" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-car-crash"></i>
+                            </div>
+                            <span class="button-text">รายงานผลการยึดรถ</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/qA7YvrTzhOI" class="action-button btn-checkpoint" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-road"></i>
+                            </div>
+                            <span class="button-text">รายงานผลจุดตรวจ/จุดสกัด</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/p7j3olWcCxM" class="action-button btn-psych" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <span class="button-text">รายงานผู้ป่วยจิตเวช</span>
+                        </a>
+                        <a href="https://lookerstudio.google.com/s/qcGaNf_DKps" class="action-button btn-vehicle" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-car-alt"></i>
+                            </div>
+                            <span class="button-text">รายงานผลยึดรถ(เก่า)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ข้อมูลพื้นฐาน Section -->
+        <div class="content-section" id="data-section">
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-database"></i> กลุ่มข้อมูลพื้นฐาน
+                </div>
+                <div class="section-content">
+                    <div class="button-grid">
+                        <a href="https://mspb-ops.github.io/2info.github.io/" class="action-button btn-data" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <span class="button-text">สถานประกอบการ</span>
+                        </a>
+                        <a href="https://mspb-ops.github.io/info.github.io/" class="action-button btn-data" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span class="button-text">ระบบข้อมูลท้องถิ่นและความปลอดภัย</span>
+                        </a>
+                        <a href="https://mspb-ops.github.io/1info.github.io/" class="action-button btn-data" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <span class="button-text">ข้อมูลท้องถิ่นจังหวัดสุพรรณบุรี</span>
+                        </a>
+                        <a href="https://script.google.com/macros/s/AKfycby3wL-C2mJNNgn-_uoBssf6rNr960gDseY5RYOjwZa6g-PLCJKjUJ5hFhiDaWCiG4Do/exec" class="action-button btn-data" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <span class="button-text">สมุดโทรศัพท์</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-item active" onclick="showSection('record-section', this)">
+                <div class="nav-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <span class="nav-text">บันทึกรายงาน</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('report-section', this)">
+                <div class="nav-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <span class="nav-text">รายงาน</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('data-section', this)">
+                <div class="nav-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <span class="nav-text">ข้อมูลพื้นฐาน</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId, element) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add loading animation on button clicks
+        document.querySelectorAll('.action-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const originalBg = this.querySelector('.button-icon-container').style.background;
+                this.querySelector('.button-icon-container').style.background = 'var(--accent-light)';
+                
+                setTimeout(() => {
+                    this.querySelector('.button-icon-container').style.background = originalBg;
+                }, 300);
+            });
+        });
+
+        // Add touch feedback for mobile
+        if ('ontouchstart' in window) {
+            document.querySelectorAll('.action-button, .nav-item').forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.96)';
+                });
+                
+                element.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
