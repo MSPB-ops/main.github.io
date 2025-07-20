@@ -51,6 +51,13 @@
             color: white;
             letter-spacing: -0.5px;
             margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
         }
 
         .header h2 {
@@ -182,6 +189,7 @@
         .btn-service { --btn-color: #8e44ad; }
         .btn-vulnerable { --btn-color: #16a085; }
         .btn-release { --btn-color: #c0392b; }
+        .btn-map { --btn-color: #27ae60; }
 
         .btn-arrest .button-icon-container {
             background: linear-gradient(135deg, var(--btn-color) 0%, #c0392b 100%);
@@ -242,6 +250,9 @@
         }
         .btn-release .button-icon-container {
             background: linear-gradient(135deg, var(--btn-color) 0%, #c0392b 100%);
+        }
+        .btn-map .button-icon-container {
+            background: linear-gradient(135deg, var(--btn-color) 0%, #2ecc71 100%);
         }
 
         .button-text {
@@ -396,6 +407,15 @@
         }
 
         @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header h1 i.fa-gavel {
+                margin-right: 8px;
+                font-size: 1.3rem;
+            }
+            
             .button-grid {
                 grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
                 gap: 14px;
@@ -450,6 +470,12 @@
                 padding: 18px;
             }
         }
+
+        @media (max-width: 400px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -458,7 +484,7 @@
         <div class="badge">
             <i class="fas fa-shield-alt"></i>
         </div>
-        <h1><i class="fas fa-gavel" style="margin-right: 12px;"></i>ระบบบริหารงานป้องกันปราบปราม</h1>
+        <h1><i class="fas fa-gavel"></i>ระบบบริหารงานป้องกันปราบปราม</h1>
         <h2>สภ.เมืองสุพรรณบุรี</h2>
     </div>
 
@@ -605,6 +631,12 @@
                 </div>
                 <div class="section-content">
                     <div class="button-grid">
+                        <a href="https://mspb-ops.github.io/map.github.io/" class="action-button btn-map" target="_blank">
+                            <div class="button-icon-container">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <span class="button-text">แผนก้าวสกัดจับ</span>
+                        </a>
                         <a href="https://mspb-ops.github.io/2info.github.io/" class="action-button btn-data" target="_blank">
                             <div class="button-icon-container">
                                 <i class="fas fa-store"></i>
