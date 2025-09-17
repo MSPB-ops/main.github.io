@@ -191,7 +191,6 @@
         .btn-vulnerable { --btn-color: #16a085; }
         .btn-release { --btn-color: #c0392b; }
         .btn-map { --btn-color: #27ae60; }
-        .btn-temple { --btn-color: var(--new-highlight); }
 
         .btn-arrest .button-icon-container {
             background: linear-gradient(135deg, var(--btn-color) 0%, #c0392b 100%);
@@ -255,16 +254,6 @@
         }
         .btn-map .button-icon-container {
             background: linear-gradient(135deg, var(--btn-color) 0%, #2ecc71 100%);
-        }
-        .btn-temple .button-icon-container {
-            background: linear-gradient(135deg, var(--btn-color) 0%, #FF7043 100%);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
 
         .button-text {
@@ -521,42 +510,7 @@
     </div>
 
     <div class="main-content">
-        <!-- ข้อมูลวัด Section (ใหม่) - ย้ายมาเป็นเมนูแรก -->
-        <div class="content-section active" id="temple-section">
-            <div class="section">
-                <div class="section-title">
-                    <i class="fas fa-temple"></i> ข้อมูลเกี่ยวกับวัด
-                    <span class="new-badge">ใหม่!</span>
-                </div>
-                <div class="section-content">
-                    <div class="button-grid">
-                        <a href="https://script.google.com/macros/s/AKfycbwni-N_HgHQLNkF4LGggg8kJ8eXoEUuYuUDFYUO43THX4DyaQlavYoLauiV4dv0qMVEDQ/exec" class="action-button btn-temple" target="_blank">
-                            <div class="button-icon-container">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <span class="button-text">บันทึกข้อมูลบุคคลในวัด</span>
-                            <span class="new-badge">เร่งด่วน</span>
-                        </a>
-                        <a href="https://www.appsheet.com/start/571aa676-cedd-49dd-9007-aa4c15b805a8" class="action-button btn-temple" target="_blank">
-                            <div class="button-icon-container">
-                                <i class="fas fa-temple"></i>
-                            </div>
-                            <span class="button-text">ข้อมูลเกี่ยวกับวัด</span>
-                            <span class="new-badge">ใหม่</span>
-                        </a>
-                        <a href="https://script.google.com/macros/s/AKfycbxYm5feqg0ihI_Xb3PTosrS8S7xq1FuQvNv3GH6spdUsM-YYQB4YHbVuHAtvmh2C1A/exec" class="action-button btn-temple" target="_blank">
-                            <div class="button-icon-container">
-                                <i class="fas fa-pray"></i>
-                            </div>
-                            <span class="button-text">หน่วยงานอื่นๆ ภายในวัด</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- บันทึกรายงาน Section - ย้ายมาเป็นเมนูที่ 2 -->
-        <div class="content-section" id="record-section">
+        <div class="content-section active" id="record-section">
             <div class="section">
                 <div class="section-title">
                     <i class="fas fa-edit"></i> กลุ่มการบันทึกผล
@@ -622,7 +576,6 @@
             </div>
         </div>
 
-        <!-- รายงาน Section - เมนูที่ 3 -->
         <div class="content-section" id="report-section">
             <div class="section">
                 <div class="section-title">
@@ -689,7 +642,6 @@
             </div>
         </div>
 
-        <!-- ข้อมูลพื้นฐาน Section - เมนูที่ 4 -->
         <div class="content-section" id="data-section">
             <div class="section">
                 <div class="section-title">
@@ -732,7 +684,6 @@
             </div>
         </div>
 
-        <!-- ศูนย์ข้อมูล Section - เมนูที่ 5 -->
         <div class="content-section" id="info-center-section">
             <div class="section">
                 <div class="section-title">
@@ -818,17 +769,9 @@
         </div>
     </div>
 
-    <!-- Fixed Bottom Navigation - ปรับลำดับเมนู -->
     <div class="bottom-nav">
         <div class="nav-container">
-            <a href="#" class="nav-item active" onclick="showSection('temple-section', this)">
-                <div class="nav-icon" style="background: linear-gradient(135deg, var(--new-highlight) 0%, #FF7043 100%); color: white;">
-                    <i class="fas fa-temple"></i>
-                </div>
-                <span class="nav-text" style="color: var(--new-highlight); font-weight: bold;">ข้อมูลวัด</span>
-                <span class="new-badge" style="top: -5px; right: -5px; font-size: 8px;">ใหม่</span>
-            </a>
-            <a href="#" class="nav-item" onclick="showSection('record-section', this)">
+            <a href="#" class="nav-item active" onclick="showSection('record-section', this)">
                 <div class="nav-icon">
                     <i class="fas fa-edit"></i>
                 </div>
@@ -901,14 +844,6 @@
                 });
             });
         }
-
-        // Highlight new temple section on first load
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.has('new')) {
-                showSection('temple-section', document.querySelector('.nav-item:nth-child(1)'));
-            }
-        });
     </script>
 </body>
 </html>
